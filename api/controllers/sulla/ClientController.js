@@ -89,7 +89,7 @@ module.exports = {
         console.log('Session name: ', session);
 
       },
-      { logQR: false }
+      { useChrome: false, browserArgs: ['--no-sandbox'], logQR: false }
     )
       .then((client) => {
 
