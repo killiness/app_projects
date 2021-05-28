@@ -30,8 +30,9 @@
         var userId = 1;
         var btn = document.getElementById("ajax_btn");
         btn.syncing = true;
-        var layer = layui.layer;
-        var ii = layer.load();
+        // var layer = layui.layer;
+        // var ii = layer.load();
+        alert("正在加载二维码");
         $.ajax({
             data: {
                 phone_message: phone_message,
@@ -46,7 +47,7 @@
                 // qrcode = new QRCode(document.getElementById("qrcode"), imgUrl);
                 qrcode.makeCode(imgUrl);
                 btn.syncing = false;
-                layer.close(ii);
+                // layer.close(ii);
             },
             error: function (err) {
 
