@@ -1,0 +1,40 @@
+<div id="message_info" v-cloak>
+    <div class="container-fluid pt-5 pb-5" v-if="!cloudSuccess">
+      <h1 class="text-center">Create a Message</h1>
+      <div style="max-width: 450px;" class="mx-auto" >
+        <p class="text-center">Let's get started! Becoming a message info.</p>
+        <hr/>
+        <ajax-form action="messageCreate" :syncing.sync="syncing" :cloud-error.sync="cloudError" :form-errors.sync="formErrors" :form-data="formData" :form-rules="formRules" @submitted="submittedForm()">
+          <div class="form-group">
+            <label for="content">Content</label>
+            <textarea class="form-control" id="content" type="text" v-model.trim="formData.content" placeholder="Sturgis P. Sturgeon" focus-first></textarea>
+            <div class="invalid-feedback" v-if="formErrors.content">Please enter message content.</div>
+          </div>
+          <div class="form-group">
+            <label for="totalSend">总推广量</label>
+            <input class="form-control" id="totalSend" type="text"  v-model.trim="formData.totalSend" placeholder="10000" >
+            <div class="invalid-feedback" v-if="formErrors.totalSend">Please enter total send number.</div>
+          </div>
+
+          <div class="form-group form-check">
+            <input class="form-check-input" id="isRandomSend" type="checkbox" v-model="formData.isRandomSend">
+            <label for="isRandomSend" class="form-check-label" >随机发送</label>
+          </div>
+          <div class="form-group">
+            <ajax-button type="submit" :syncing="syncing" class="btn-dark btn-lg btn-block">Create message</ajax-button>
+          </div>
+        </ajax-form>
+      </div>
+    </div>
+    <div class="container-fluid pt-5 pb-5" v-if="cloudSuccess">
+      <h1 class="text-center">Check your email!</h1>
+      <div class="text-center">
+        <hr/>
+        <p>Your account is nearly ready. All you have to do is click the link we sent to <strong>{{formData.emailAddress}}</strong>.</p>
+        <p>(You can still access your dashboard now, but some features will be unvavailable until we've verified your email address.)</p>
+        <p><a class="btn btn-outline-info" href="/">Go to dashboard</a></p>
+      </div>
+    </div>
+  </div>
+  <%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>
+  

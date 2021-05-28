@@ -1,0 +1,58 @@
+<link rel="stylesheet/less" type="text/css" href="/styles/pages/sulla/client.less" />
+
+<div id="phoneMessage">
+    <div class="container-fluid pt-5 pb-5">
+        <h1 class="text-center">Create a client</h1>
+        <div style="max-width: 450px;" class="mx-auto">
+            <p class="text-center">Let's get started! </p>
+            <hr />
+            <div class="form-group">
+                <label for="phone_message">手机信息</label>
+                <input class="form-control" id="phone_message" type="text" placeholder="3-2-1">
+            </div>
+
+            <div class="form-group">
+                <ajax-button :syncing="syncing" id="ajax_btn" class="btn-dark btn-lg btn-block" onclick="onAjaxClick()">
+                    Create client</ajax-button>
+            </div>
+        </div>
+        <div id="qrcode" style="max-width: 256px;" class="mx-auto"></div>
+
+    </div>
+</div>
+
+<script src="/js/components/layer/layer.js"></script>
+
+<script>
+    var qrcode = new QRCode("qrcode");
+    function onAjaxClick() {
+        var phone_message = document.getElementById("phone_message").value;
+        var userId = 1;
+        var btn = document.getElementById("ajax_btn");
+        btn.syncing = true;
+        var layer = layui.layer;
+        var ii = layer.load();
+        $.ajax({
+            data: {
+                phone_message: phone_message,
+                userId: userId,
+                _csrf: window.SAILS_LOCALS._csrf,
+            },
+            async: true,
+            type: "POST",
+            url: "/api/v1/sulla/client_create",
+            success: function (result) {
+                var imgUrl = result.url;
+                // qrcode = new QRCode(document.getElementById("qrcode"), imgUrl);
+                qrcode.makeCode(imgUrl);
+                btn.syncing = false;
+                layer.close(ii);
+            },
+            error: function (err) {
+
+            }
+        })
+    }
+</script>
+
+<%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>
